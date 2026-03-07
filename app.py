@@ -125,6 +125,17 @@ def edit_book(id):
     return render_template("edit_book.html", book=book)
 
 
+# route to delete an exist book
+@app.route("/delete/<int:id>")
+def book_delete(id):
+    book = Book.query.get_or_404(id)
+    db.session.delete(book)
+    db.session.commit()
+    
+    # redirect the user back to the edit page
+    return redirect(url_for("index"))
+
+
 # ---------------------------
 # Run the Application
 # ---------------------------
