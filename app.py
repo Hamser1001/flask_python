@@ -92,6 +92,39 @@ def add_book():
     return render_template("add_book.html")
 
 
+# route to edit an exist book
+@app.route("/edit/<int:id>", methods=["GET", "POST"])
+def edit_book(id):
+    book = Book.query.get_or_404(id)
+
+    # if the user submits the form
+    if request.method == "POST":
+        # get data from the form
+        title = request.form["title"]
+        author_name = request.form["author"]
+
+        # check if the author already exists in the database
+        author = Author.query.filter_by(name=author_name).first()
+
+        # if author does not exist, create a new one
+        if not author:
+            author = Author(name=author_name)
+            db.session.add(author)
+            db.session.commit()
+
+        # update the author and the title
+        book.author_id = author.id
+        book.title = title
+
+        # save changes to the database
+        db.session.commit()
+
+        # redirect the user back to the edit page
+        return redirect(url_for("index"))
+
+    return render_template("edit_book.html", book=book)
+
+
 # ---------------------------
 # Run the Application
 # ---------------------------
