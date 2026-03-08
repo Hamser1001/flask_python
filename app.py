@@ -131,9 +131,15 @@ def book_delete(id):
     book = Book.query.get_or_404(id)
     db.session.delete(book)
     db.session.commit()
-    
+
     # redirect the user back to the edit page
     return redirect(url_for("index"))
+
+
+@app.route("/books/<int:id>")
+def book_detail(id):
+    book = Book.query.get_or_404(id)
+    render_template("book_detail.html", book=book)
 
 
 # ---------------------------
