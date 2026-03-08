@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+
+{% block body %}
+
+<h2>Search Books</h2>
+<form method="post" class="d-flex mb-5">
+    <div class="d-flex">
+        <input name="query" class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+        <button class="btn btn-outline-success" type="submit">Search</button>
+    </div>
+</form>
+
+{% if query %}
+<div>
+    <h3>Result for: {{query}}</h3>
+    <div class="my-3">
+        <h3>Books </h3>
+        <ul class="list-group">
+            {% for book in books%}
+            <li class="list-group-item"><a href="{{url_for('book_detail', id=book.id)}}">{{book.title}} by
+                    {{book.author.name}}</a></li>
+            {% else %}
+            <li class="list-group-item">No books Found</li>
+            {% endfor %}
+        </ul>
+    </div>
+    <div class="my-3">
+        <h3>Authors </h3>
+        <ul class="list-group">
+            {% for author in authors%}
+            <li class="list-group-item"><a href="#">{{author.name}} by
+                    {{author.name}}</a></li>
+            {% else %}
+            <li class="list-group-item">No authors Found</li>
+            {% endfor %}
+        </ul>
+    </div>
+
+</div>
+{% endif %}
+
+{% endblock body %}

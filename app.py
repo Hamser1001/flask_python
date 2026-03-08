@@ -142,6 +142,18 @@ def book_detail(id):
     return render_template("book_detail.html", book=data)
 
 
+@app.route("/search", methods=["GET", "POST"])
+def search_books():
+    if request.method == "POST":
+        query = request.form["query"]
+        print(f"query: {query}")
+        books = Book.query.filter(Book.title.ilike(f"%{query}%")).all()
+        authors = Author.query.filter(Author.name.ilike(f"%{query}%")).all()
+        print(len(books), len(authors))
+        return render_template("search.html", books=books, authors=authors, query=query)
+    return render_template("search.html")
+
+
 # ---------------------------
 # Run the Application
 # ---------------------------
