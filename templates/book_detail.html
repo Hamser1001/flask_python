@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+
+{% block body %}
+
+<h3>Title: {{ book.title }}</h3>
+<h5>Author: {{ book.author.name }}</h5>
+<h5>Reviews</h5>
+<ul>
+    {% for review in book.reviews %}
+    <li>{{ review.content }}</li>
+    {% else %}
+    <li>No reviews yet</li>
+    {% endfor %}
+</ul>
+{% endblock body %}

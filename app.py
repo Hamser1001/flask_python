@@ -138,8 +138,8 @@ def book_delete(id):
 
 @app.route("/books/<int:id>")
 def book_detail(id):
-    book = Book.query.get_or_404(id)
-    render_template("book_detail.html", book=book)
+    data = Book.query.get_or_404(id)
+    return render_template("book_detail.html", book=data)
 
 
 # ---------------------------
