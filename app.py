@@ -18,7 +18,7 @@ app = Flask(__name__)
 def celery_init_app(app: Flask) -> Celery:
     class FlaskTask(Task):
         def __call__(self, *args: object, **kwargs: object) -> object:
-            with app.context():
+            with app.app_context():
                 return self.run(*args, **kwargs)
 
     celery_app = Celery(app.name, task_cls=FlaskTask)
@@ -74,6 +74,7 @@ with app.app_context():
 # ---------------------------
 
 from web import *
+from tasks import send_book_notification
 
 if __name__ == "__main__":
     # start the Flask development server

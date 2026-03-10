@@ -1,5 +1,6 @@
 from app import app
 
+
 # import database and models from models.py
 from models import db, Book, Author, Review
 
@@ -29,6 +30,7 @@ def add_book():
 
     # if the user submits the form
     if request.method == "POST":
+        from tasks import send_book_notification
 
         # get data from the form
         title = request.form["title"]
@@ -51,6 +53,9 @@ def add_book():
 
         # save changes to the database
         db.session.commit()
+
+        # fire celery to send notification
+        send_book_notification.delay(book.id, book.title)
 
         # redirect the user back to the homepage
         return redirect(url_for("index"))
